@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+   PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html
+   xmlns="http://www.w3.org/1999/xhtml"
+   xml:lang="en">
+
+  <head>
+    <meta
+       http-equiv="content-type"
+       content="application/xhtml+xml;charset=UTF-8"/>
+    <meta
+       content="initial-scale=1"
+       name="viewport"/>
+    <title>PasswordGenerator : project page</title>
+    <link
+       href="style/blankaspect-common.css"
+       media="screen"
+       rel="stylesheet"
+       type="text/css"/>
+    <link
+       href="style/blankaspect-project.css"
+       media="screen"
+       rel="stylesheet"
+       type="text/css"/>
+    <link
+       href="style/passwordGenerator-main.css"
+       media="screen"
+       rel="stylesheet"
+       type="text/css"/>
+    <link
+       href="images/icon-48x48.png"
+       rel="icon"/>
+  </head>
+
+  <body>
+
+    <!-- Title -->
+
+    <div id="title">
+      <div>
+        <img alt="Icon" src="images/icon-48x48.png"/>
+      </div>
+      <div>
+        PasswordGenerator
+      </div>
+    </div>
+
+
+    <!-- Description -->
+
+    <div class="section" id="description">
+      <p class="wrap">
+        PasswordGenerator is a <a class="external"
+        href="https://en.wikipedia.org/wiki/JavaFX">JavaFX</a> application for generating random
+        text that may be used for passwords.  It can also be used for more esoteric purposes
+        such as generating random permutations of digits.
+      </p>
+
+      <h4>Features</h4>
+      <ul class="list">
+        <li class="spaced wrap">
+          The characters of the generated text may be selected from five categories that cover
+          the printable characters of the <a class="external"
+          href="https://en.wikipedia.org/wiki/ASCII">ASCII</a> character encoding.  A category
+          may be marked as <i>required</i>; if so, it must contribute at least one character to
+          the generated text.
+        </li>
+        <li class="spaced wrap">
+          Characters may be explicitly included in and excluded from the generated text.
+        </li>
+        <li class="spaced wrap">
+          The length of the generated text may be a specified value or a random value between
+          specified lower and upper bounds, up to a maximum length of 1024 characters.
+        </li>
+        <li class="spaced wrap">
+          There is an option to require generated text to consist of unique characters (that is,
+          no character may appear more than once in the text).
+        </li>
+        <li class="spaced wrap">
+          Generated text can be easily copied to the system clipboard.
+        </li>
+        <li class="spaced wrap">
+          You can save a set of parameters &mdash; character categories and their
+          <i>required</i> flags; explicitly included and excluded characters; the <i>unique
+          characters</i> flag &mdash; as a named preset that may be selected from a menu.
+        </li>
+        <li class="spaced wrap">
+          The default implementation of the Java <a class="external"
+          href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/security/SecureRandom.html"><code>SecureRandom</code></a>
+          class is used as the pseudo-random number generator for generating random characters.
+        </li>
+        <li class="spaced wrap">
+          Programmers can extend the pool of characters from which the generated text is drawn
+          by the simple means of adding categories to the <code>CharCategory</code> enumeration.
+        </li>
+      </ul>
+
+      <h4>Links</h4>
+      <ul class="list">
+        <li class="spaced">
+          <a href="https://github.com/blankaspect/passwordGenerator">Source code</a>
+        </li>
+        <li class="spaced">
+          <div>
+            <a href="manual/manual.html">Manual</a> &nbsp;(Single HTML file)
+          </div>
+          <div class="smallText1 wrap">
+            (JavaScript must be enabled in your browser in order to generate the manual&apos;s
+            table of contents.)
+          </div>
+        </li>
+        <li class="spaced">
+          <a href="images/screenshot-light.png">Screenshot, light colour scheme</a>
+        </li>
+        <li class="spaced">
+          <a href="images/screenshot-dark.png">Screenshot, dark colour scheme</a>
+        </li>
+      </ul>
+
+      <h4>Licence</h4>
+      <p class="wrap">
+        PasswordGenerator is made available under three licences:
+      </p>
+      <ul class="list">
+        <li class="spaced wrap">
+          The contents of the <code>uk.blankaspect.passwordgenerator</code> package (including
+          resources) may be used under the terms and conditions of version 3 of the <a
+          class="external" href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public
+          License</a>.
+        </li>
+        <li class="spaced wrap">
+          The Roboto Mono fonts may be used under the terms and conditions of version 1.1 of the
+          <a class="external"
+          href="https://openfontlicense.org/open-font-license-official-text/">SIL Open Font
+          License</a>.
+        </li>
+        <li class="spaced wrap">
+          All other contents of the <a
+          href="https://github.com/blankaspect/passwordGenerator">blankaspect/passwordGenerator</a>
+          repository may be used under the terms and conditions of the <a class="external"
+          href="https://mit-license.org/">MIT License</a>.
+        </li>
+      </ul>
+    </div>
+
+
+    <!-- Footer -->
+
+    <div id="lastModified">
+      <div>
+        <div>
+          Last modified: 2026-05-21
+        </div>
+        <div class="image">
+          <a class="hideHover" href="https://validator.w3.org/check?uri=referer">
+            <img alt="XHTML 1.1" src="images/valid-xhtml11-blue.png"/>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </body>
+
+</html>

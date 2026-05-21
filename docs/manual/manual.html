@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+   PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html
+   xmlns="http://www.w3.org/1999/xhtml"
+   xml:lang="en">
+
+  <head>
+    <meta
+       http-equiv="content-type"
+       content="application/xhtml+xml;charset=UTF-8"/>
+    <meta
+       content="initial-scale=1"
+       name="viewport"/>
+    <title>PasswordGenerator : manual</title>
+    <link
+       href="style/blankaspect-common.css"
+       rel="stylesheet"
+       type="text/css"/>
+    <link
+       href="style/blankaspect-manual.css"
+       rel="stylesheet"
+       type="text/css"/>
+    <link
+       href="style/passwordGenerator-manual.css"
+       rel="stylesheet"
+       type="text/css"/>
+    <link
+       href="images/icon-48x48.png"
+       rel="icon"/>
+    <script
+       src="scripts/Toc.js"
+       type="text/javascript">
+    </script>
+    <script
+       src="scripts/init.js"
+       type="text/javascript">
+    </script>
+  </head>
+
+  <body>
+
+    <!-- Title -->
+
+    <div id="title">
+      <div>
+        <img alt="Icon" src="images/icon-48x48.png"/>
+      </div>
+      <div>
+        PasswordGenerator : manual
+      </div>
+    </div>
+
+    <!--=====================================================================================-->
+
+    <!-- Table of contents -->
+
+    <div class="section">
+      <h2 id="toc">Table of contents</h2>
+      <div id="tocRoot">
+        <div class="wrap" id="tocPlaceholder">
+          You must have JavaScript enabled in your browser to generate the table of contents.
+        </div>
+      </div>
+    </div>
+
+    <!--=====================================================================================-->
+
+    <!-- Introduction -->
+
+    <div class="section">
+      <h2 id="section1">1&nbsp; Introduction</h2>
+      <p class="tocLink">
+        [ <a href="#toc">Table of contents</a> ]
+      </p>
+
+      <p class="wrap">
+        PasswordGenerator is a <a class="external"
+        href="https://en.wikipedia.org/wiki/JavaFX">JavaFX</a> application for generating random
+        text that may be used for passwords.  It can also be used for more esoteric purposes
+        such as generating random permutations of digits.
+      </p>
+
+      <h3 id="section1-1">1.1&nbsp; Features</h3>
+
+      <p class="wrap">
+        PasswordGenerator has the following features:
+      </p>
+      <ul class="list">
+        <li class="spaced wrap">
+          The characters of the generated text may be selected from five categories that cover
+          the printable characters of the <a class="external"
+          href="https://en.wikipedia.org/wiki/ASCII">ASCII</a> character encoding.  A category
+          may be marked as <i>required</i>; if so, it must contribute at least one character to
+          the generated text.
+        </li>
+        <li class="spaced wrap">
+          Characters may be explicitly included in and excluded from the generated text.
+        </li>
+        <li class="spaced wrap">
+          The length of the generated text may be a specified value or a random value between
+          specified lower and upper bounds, up to a maximum length of 1024 characters.
+        </li>
+        <li class="spaced wrap">
+          There is an option to require generated text to consist of unique characters (that is,
+          no character may appear more than once in the text).
+        </li>
+        <li class="spaced wrap">
+          Generated text can be easily copied to the system clipboard.
+        </li>
+        <li class="spaced wrap">
+          You can save a set of parameters &mdash; character categories and their
+          <i>required</i> flags; explicitly included and excluded characters; the <i>unique
+          characters</i> flag &mdash; as a named preset that may be selected from a menu.
+        </li>
+        <li class="spaced wrap">
+          The default implementation of the Java <a class="external"
+          href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/security/SecureRandom.html"><code>SecureRandom</code></a>
+          class is used as the pseudo-random number generator for generating random characters.
+        </li>
+        <li class="spaced wrap">
+          Programmers can extend the pool of characters from which the generated text is drawn
+          by the simple means of adding categories to the <code>CharCategory</code> enumeration.
+        </li>
+      </ul>
+
+      <h3 id="section1-2">1.2&nbsp; Licence</h3>
+
+      <p class="wrap">
+        PasswordGenerator is made available under three licences:
+      </p>
+      <ul class="list">
+        <li class="spaced wrap">
+          The contents of the <code>uk.blankaspect.passwordgenerator</code> package (including
+          resources) may be used under the terms and conditions of version 3 of the <a
+          class="external" href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public
+          License</a>.
+        </li>
+        <li class="spaced wrap">
+          The Roboto Mono fonts may be used under the terms and conditions of version 1.1 of the
+          <a class="external"
+          href="https://openfontlicense.org/open-font-license-official-text/">SIL Open Font
+          License</a>.
+        </li>
+        <li class="spaced wrap">
+          All other contents of the <a
+          href="https://github.com/blankaspect/passwordGenerator">blankaspect/passwordGenerator</a>
+          repository may be used under the terms and conditions of the <a class="external"
+          href="https://mit-license.org/">MIT License</a>.
+        </li>
+      </ul>
+
+    </div>
+
+    <!--=====================================================================================-->
+
+    <!-- Building and running the application -->
+
+    <div class="section">
+      <h2 id="section2">2&nbsp; Building and running the application</h2>
+      <p class="tocLink">
+        [ <a href="#toc">Table of contents</a> ]
+      </p>
+
+      <p class="wrap">
+        This section assumes that you have some experience of building and running a Java
+        application.
+      </p>
+
+      <h3 id="section2-1">2.1&nbsp; Building the application</h3>
+
+      <p class="wrap">
+        The following software is required to build PasswordGenerator:
+      </p>
+      <ul class="list">
+        <li class="spaced wrap">
+          A Java Development Kit (JDK) that supports Java 17, such as <a class="external"
+          href="https://adoptium.net/">Eclipse Temurin from Adoptium</a>.
+        </li>
+        <li class="spaced">
+          <div class="wrap">
+            The following JavaFX modules:
+          </div>
+          <ul class="continuationList">
+            <li class="wrap">
+              <code>javafx.base</code>
+            </li>
+            <li class="wrap">
+              <code>javafx.controls</code>
+            </li>
+            <li class="wrap">
+              <code>javafx.graphics</code>
+            </li>
+            <li class="wrap">
+              <code>javafx.swing</code>
+            </li>
+          </ul>
+          <div class="wrap">
+            The JavaFX modules must be compatible with the JDK.  The modules may be supplied as
+            JMOD files for compiling and linking, or the contents of the modules may be supplied
+            by JAR files from the JavaFX software development kit (SDK).  The JavaFX JMODs and
+            SDK are available from <a class="external" href="https://openjfx.io/">OpenJFX</a>.
+          </div>
+          <div class="wrap">
+            If you&apos;re building with Gradle or Maven, JavaFX artifacts are available from <a
+            class="external"
+            href="https://central.sonatype.com/artifact/org.openjfx/javafx">Maven Central</a>.
+          </div>
+        </li>
+      </ul>
+      <p class="wrap">
+        The <code>src</code> directory of the <a
+        href="https://github.com/blankaspect/passwordGenerator">blankaspect/passwordGenerator</a>
+        repository contains the source code and resources that constitute the application; there
+        are no external dependencies apart from JavaFX.  The directory conforms to the Maven
+        standard directory layout: the source code is in <code>src/main/java</code> and the
+        resources are in <code>src/main/resources</code>.
+      </p>
+      <p class="noBottomMargin wrap">
+        The supplied Kotlin-DSL-based <a class="external" href="https://gradle.org/">Gradle</a>
+        build script, <code>build.gradle.kts</code>, modifies the <code>compileJava</code> and
+        <code>jar</code> tasks (provided by the <code>java</code> plug-in) to compile the
+        application and to create an executable JAR file for it.  The <code>compileJava</code>
+        task expects the required JavaFX modules to be supplied by a JavaFX SDK whose location
+        is specified by the <code>JAVAFX_HOME</code> environment variable.  If this is
+        unsuitable, you could modify the build script in one of the following ways:
+      </p>
+      <ul class="continuationList">
+        <li class="wrap">
+          replace the local dependency on a JavaFX SDK with an external dependency on a <a
+          class="external"
+          href="https://central.sonatype.com/artifact/org.openjfx/javafx">JavaFX artifact</a>
+          from a repository, or
+        </li>
+        <li class="wrap">
+          use the <a class="external"
+          href="https://plugins.gradle.org/plugin/org.openjfx.javafxplugin">JavaFX Gradle
+          plug-in</a>.
+        </li>
+      </ul>
+
+      <h3 id="section2-2">2.2&nbsp; Running the application</h3>
+
+      <p class="wrap">
+        A Java Runtime Environment (JRE) and the JavaFX modules listed above are required to run
+        PasswordGenerator.  A Java Development Kit (JDK) includes a JRE.  The JavaFX modules may
+        be provided by separate JAR files or they may be included in a JRE:
+      </p>
+      <ul class="list">
+        <li class="spaced wrap">
+          If you run PasswordGenerator with a JRE that does not contain JavaFX modules, the
+          location and names of the modules must be specified with the
+          <code>--module-path</code> and <code>--add-modules</code> options on the command line
+          of the Java launcher.
+        </li>
+        <li class="spaced wrap">
+          You can avoid the use of the command-line options if you run PasswordGenerator with a
+          JRE that contains JavaFX modules.  JavaFX modules are included in some third-party
+          JREs, such as the <a class="external" href="https://www.azul.com/downloads/">Azul Zulu
+          JRE FX packages</a>, or you can use the <code>jlink</code> tool from a JDK to create a
+          JRE that contains a custom set of Java SE, JDK and JavaFX modules.  The <a
+          href="https://github.com/blankaspect/makejre">blankaspect/makejre</a> repository
+          contains a Bash script and a PowerShell 7 script that may be used to create a JRE with
+          <code>jlink</code>.
+        </li>
+      </ul>
+      <p class="wrap">
+        The supplied Kotlin-DSL-based Gradle build script, <code>build.gradle.kts</code>,
+        defines four tasks that may be used to run PasswordGenerator:
+      </p>
+      <ul class="list">
+        <li class="spaced wrap">
+          The <code>runMain</code> and <code>runJar</code> tasks require the JavaFX modules to
+          be supplied by a JavaFX SDK whose location is specified by the
+          <code>JAVAFX_HOME</code> environment variable.
+        </li>
+        <li class="spaced wrap">
+          The <code>runMainJre</code> and <code>runJarJre</code> tasks require a JRE that
+          includes JavaFX modules.  The tasks expect the location of the JRE to be specified by
+          the <code>JRE_DIR</code> environment variable.
+        </li>
+      </ul>
+      <dl class="basic">
+        <dt>runMain</dt>
+        <dd class="wrap">
+          Runs the main class from the class files that were generated by the
+          <code>compileJava</code> task.
+        </dd>
+        <dt>runMainJre</dt>
+        <dd class="wrap">
+          Runs the main class from the class files that were generated by the
+          <code>compileJava</code> task.  The class is run with a Java launcher from a JRE that
+          includes JavaFX modules.
+        </dd>
+        <dt>runJar</dt>
+        <dd class="wrap">
+          Runs the executable JAR that was generated by the <code>jar</code> task.
+        </dd>
+        <dt>runJarJre</dt>
+        <dd class="wrap">
+          Runs the executable JAR that was generated by the <code>jar</code> task.  The JAR is
+          run with a Java launcher from a JRE that includes JavaFX modules.
+        </dd>
+      </dl>
+      <p class="wrap">
+        All four tasks extend the <code>JavaExec</code> task.
+      </p>
+
+    </div>
+
+    <!--=====================================================================================-->
+
+    <!-- Configuration -->
+
+    <div class="section">
+      <h2 id="section3">3&nbsp; Configuration</h2>
+      <p class="tocLink">
+        [ <a href="#toc">Table of contents</a> ]
+      </p>
+
+      <p class="wrap">
+        When it starts up, PasswordGenerator is configured from an optional configuration file
+        named <code>passwordGenerator-config.json</code> whose location may be specified
+        explicitly or implicitly.  The configuration file is a text file in JSON (JavaScript
+        Object Notation) format that is laid out to make it easy for humans to read.  A default
+        value is used for a property that isn&apos;t explicitly defined in the configuration
+        file.
+      </p>
+      <p class="noBottomMargin wrap">
+        The location and use of a configuration file are controlled by two system properties:
+      </p>
+      <ul class="continuationList">
+        <li class="wrap">
+          <code>blankaspect.app.auxDir</code>
+        </li>
+        <li class="wrap">
+          <code>blankaspect.app.noConfigFile</code>
+        </li>
+      </ul>
+      <p class="noBottomMargin wrap">
+        The system properties may be set on the command line of the Java launcher
+        (<code>java</code> or <code>javaw</code>) with the <code>-D</code> option.
+      </p>
+
+      <h3 id="section3-1">3.1&nbsp; The <code>blankaspect.app.auxDir</code> system property</h3>
+
+      <p class="wrap">
+        The <code>blankaspect.app.auxDir</code> system property specifies, explicitly or
+        implicitly, the directory that contains the configuration file.
+      </p>
+      <ul class="list">
+        <li class="spaced wrap">
+          If the value of the <code>blankaspect.app.auxDir</code> system property is an empty
+          string, PasswordGenerator will look for a configuration file in the current working
+          directory, which depends on the system and the way in which the application was run.
+          (On Unix-like systems, the working directory is denoted by the environment variable
+          <code>PWD</code>.)
+        </li>
+        <li class="spaced">
+          <div class="wrap">
+            If the value of the <code>blankaspect.app.auxDir</code> system property is not an
+            empty string, it will be taken as the location of a directory that contains a
+            configuration file.  If the location denotes an existing directory,
+            PasswordGenerator will look for a configuration file in that directory.
+          </div>
+          <div class="wrap">
+            The value of the system property may contain <a href="#sectionA">special
+            constructs</a> for system properties, environment variables and the user&apos;s home
+            directory.
+          </div>
+        </li>
+        <li class="spaced">
+          <div class="wrap">
+            If the <code>blankaspect.app.auxDir</code> system property does not exist,
+            PasswordGenerator will look for a configuration file in the default directory:
+          </div>
+          <ul class="list">
+            <li class="spaced wrap">
+              On Unix-like systems, the default directory is
+              <code>$HOME/.blankaspect/passwordGenerator</code>, where <code>HOME</code> is the
+              environment variable that denotes the user&apos;s home directory.
+            </li>
+            <li class="spaced wrap">
+              On Windows, the default directory is
+              <code>%APPDATA%\blankaspect\passwordGenerator</code>, where <code>APPDATA</code>
+              is an environment variable that denotes a subdirectory of the user&apos;s home
+              directory named <code>AppData</code>.
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <p class="wrap">
+        After the location of the directory is determined in the way described above, if the
+        directory does not exist or it does not contain a configuration file, default values
+        will be used for the configuration properties.
+      </p>
+      <p class="wrap">
+        If the configuration has changed when you exit the application normally (ie, using the
+        <a class="command" href="#section7-2">Exit</a> command or an equivalent), the
+        configuration will be written to a configuration file unless the writing of the file is
+        suppressed by the <a href="#section3-2"><code>blankaspect.app.noConfigFile</code> system
+        property</a>.  If the writing of a configuration file is allowed, a file will be written
+        to the directory whose location is determined in the way described above.
+      </p>
+
+      <h3 id="section3-2">3.2&nbsp; The <code>blankaspect.app.noConfigFile</code> system property</h3>
+
+      <p class="wrap">
+        If the system property <code>blankaspect.app.noConfigFile</code> exists and its value is
+        <code>true</code>, no configuration file will be read when PasswordGenerator starts up,
+        default values will be used for the configuration properties and no configuration file
+        will be written when the application terminates.
+      </p>
+
+    </div>
+
+    <!--=====================================================================================-->
+
+    <!-- The main window -->
+
+    <div class="section">
+      <h2 id="section4">4&nbsp; The main window</h2>
+      <p class="tocLink">
+        [ <a href="#toc">Table of contents</a> ]
+      </p>
+
+      <p class="noBottomMargin wrap">
+        PasswordGenerator&apos;s main window is divided into four sections, from top to bottom:
+      </p>
+      <ul class="continuationList">
+        <li>a <a href="#section4-1">toolbar</a>,</li>
+        <li>a <a href="#section4-2">control pane</a>,</li>
+        <li>a <a href="#section4-3">password pane</a>,</li>
+        <li>a <a href="#section4-4">button pane</a>.</li>
+      </ul>
+
+      <h3 id="section4-1">4.1&nbsp; The toolbar</h3>
+
+      <p class="wrap">
+        The toolbar contains three buttons, from left to right:
+      </p>
+      <ul class="list">
+        <li class="spaced wrap">
+          The <span class="component">Add or update preset</span> button issues the <a
+          class="command" href="#section5-1">Add or update preset</a> command.
+        </li>
+        <li class="spaced wrap">
+          The <span class="component">Presets</span> button displays a menu that is divided into
+          two sections.  The top section of the menu contains an item for each of the available
+          presets.  A preset can be applied to the components of the <a
+          href="#section4-2">control pane</a> by selecting the corresponding item in the menu.
+          The bottom section of the menu contains an item for the <a class="command"
+          href="#section5-2">Edit presets</a> command.  The <span
+          class="component">Presets</span> button is disabled if there are no presets.
+        </li>
+        <li class="spaced wrap">
+          The <span class="component">Preferences</span> button issues the <a class="command"
+          href="#section5-3">Preferences</a> command.
+        </li>
+      </ul>
+
+      <h3 id="section4-2">4.2&nbsp; The control pane</h3>
+
+      <p class="wrap">
+        The control pane contains components that control the generation of a password.
+      </p>
+
+      <h4 id="section4-2-1">4.2.1&nbsp; Character-category check boxes</h4>
+      <p class="wrap">
+        At the top of the control pane, there is a pair of check boxes for each of five
+        <i>character categories</i>; each pair comprises a <i>category</i> check box and a
+        <i>category required</i> check box.  The categories are associated with disjoint subsets
+        of the <a class="external" href="https://en.wikipedia.org/wiki/ASCII">ASCII</a>
+        character encoding; taken together, they cover the 95 printable characters of the
+        encoding.  The <i>category</i> check box determines whether the characters that belong
+        to the category will be included in the pool from which the characters of a password are
+        drawn.  If the <i>category required</i> check box is selected, a generated password must
+        contain at least one character from the corresponding category.
+      </p>
+
+      <h4 id="section4-2-2">4.2.2&nbsp; The <span class="component">Include</span> field and <span class="component">Required</span> check box</h4>
+      <p class="wrap">
+        Characters in the <span class="component">Include</span> text field are added to the
+        pool from which the characters of a password are drawn.  If the associated <span
+        class="component">Required</span> check box is selected, a generated password must
+        contain at least one of the characters from the field.  If any included character is a
+        duplicate of a character from a selected category, the character is removed from the
+        characters that are contributed by the category so that each character in the pool has
+        the same probability of being drawn.
+      </p>        
+      <p class="wrap">
+        By default, you can include only printable ASCII characters (Unicode code points in the
+        range from U+0020 to U+007E inclusive).  This restriction is controlled by a <a
+        class="configProperty" href="#section6-2-1">user preference</a>.
+      </p>
+
+      <h4 id="section4-2-3">4.2.3&nbsp; The <span class="component">Exclude</span> field</h4>
+      <p class="wrap">
+        Characters in the <span class="component">Exclude</span> text field are removed from the
+        the pool from which the characters of a password are drawn.
+      </p>
+
+      <h4 id="section4-2-4">4.2.4&nbsp; The <span class="component">Unique characters</span> check box</h4>
+      <p class="wrap">
+        If the <span class="component">Unique characters</span> check box is selected, a
+        generated password will not contain any duplicate characters.  This requirement
+        implicitly limits the length of a password to the number of characters in the pool from
+        which the characters of a password are drawn.
+      </p>
+
+      <h4 id="section4-2-5">4.2.5&nbsp; The <span class="component">Length</span> spinners and <i>link</i> button</h4>
+      <p class="wrap">
+        The <span class="component">Length</span> spinners determine the lower and upper bounds
+        of the length of a generated password.  The <i>link</i> button links and unlinks the
+        values of the two spinners.  If the spinners are linked, the length of a password will
+        be the value of both spinners.  If the spinners are unlinked, the length of a password
+        will be a random value between the lower and upper bounds (inclusive), and all values
+        are equally likely.
+      </p>
+
+      <h3 id="section4-3">4.3&nbsp; The password pane</h3>
+
+      <p class="wrap">
+        The password pane contains a label in which a password is displayed after it has been
+        generated.  If a password is too long for the label, it is truncated and the missing
+        part is replaced by an ellipsis.  In this case, you can view the whole password &mdash;
+        or, at least, as much of it as can fit in the width of the screen &mdash; by holding
+        down the primary mouse button on the label.
+      </p>
+
+      <h3 id="section4-4">4.4&nbsp; The button pane</h3>
+
+      <p class="wrap">
+        The button pane contains three buttons, from left to right:
+      </p>
+      <ul class="list">
+        <li class="spaced wrap">
+          The <span class="component">Copy</span> button issues the <a class="command"
+          href="#section5-4">Copy password</a> command.
+        </li>
+        <li class="spaced wrap">
+          The <span class="component">Generate</span> button issues the <a class="command"
+          href="#section5-5">Generate password</a> command.
+        </li>
+        <li class="spaced wrap">
+          The <span class="component">Exit</span> button issues the <a class="command"
+          href="#section5-6">Exit</a> command.
+        </li>
+      </ul>
+
+    </div>
+
+    <!--=====================================================================================-->
+
+    <!-- Commands -->
+
+    <div class="section">
+      <h2 id="section5">5&nbsp; Commands</h2>
+      <p class="tocLink">
+        [ <a href="#toc">Table of contents</a> ]
+      </p>
+
+      <p class="wrap">
+        The application&apos;s commands may be issued from a button in the <a
+        href="#section4-1">toolbar</a> or <a href="#section4-4">button pane</a> of the main
+        window or from an item in the <span class="component">Presets</span> menu.  Most of the
+        commands may also be issued with a key combination.
+      </p>
+
+      <h3 id="section5-1">5.1&nbsp; The <span class="command">Add or update preset</span> command</h3>
+
+      <p class="wrap">
+        The <span class="command">Add or update preset</span> command (Ctrl+P) displays a modal
+        dialog for the name of the preset.
+      </p>
+      <ul class="list">
+        <li class="spaced wrap">
+          If you want to <b>add</b> a preset, you should enter the name of the new preset in the
+          text field.  When you accept the dialog, a new preset will be created from the current
+          <a href="#section7-1">parameters</a> and appended to the list of presets.
+        </li>
+        <li class="spaced wrap">
+          If you want to <b>update</b> an existing preset, you should choose the name of the
+          preset from the drop-down list.  When you accept the dialog, you will be notified of
+          the conflicting name and asked whether you want to update the existing preset.  If you
+          agree, the preset will be updated with the current <a
+          href="#section7-1">parameters</a>.
+        </li>
+      </ul>
+
+      <h3 id="section5-2">5.2&nbsp; The <span class="command">Edit presets</span> command</h3>
+
+      <p class="wrap">
+        The <span class="command">Edit presets</span> command (Ctrl+E) is available from the
+        <span class="component">Presets</span> menu.  It displays a modal dialog that contains a
+        list view of the names of the presets and some buttons for performing operations on the
+        preset that is selected in the list view:
+      </p>
+      <ul class="list">
+        <li class="spaced wrap">
+          The <span class="component">Edit</span> button displays a modal dialog in which the
+          preset may be renamed.
+        </li>
+        <li class="spaced wrap">
+          The <span class="component">Remove</span> button removes the selected preset from the
+          list after confirmation.  You can suppress the confirmation dialog by holding down the
+          Shift key while you click the button.  You can issue a <i>remove</i> command by
+          pressing the Delete key when the list view has keyboard focus.  (Shift+Delete removes
+          the preset from the list without asking for confirmation.)
+        </li>
+        <li class="spaced wrap">
+          The <span class="component">Move up</span> and <span class="component">Move
+          down</span> buttons change the position of the preset in the list.
+        </li>
+      </ul>
+
+      <h3 id="section5-3">5.3&nbsp; The <span class="command">Preferences</span> command</h3>
+
+      <p class="wrap">
+        The <span class="command">Preferences</span> command (F8) displays a modal dialog in
+        which the <a href="#section6">user preferences</a> of PasswordGenerator can be edited.
+        By default, the preferences are stored in a <a href="#section3">configuration file</a>.
+        The use of a configuration file can be <a href="#section3-2">disabled</a>.
+      </p>
+
+      <h3 id="section5-4">5.4&nbsp; The <span class="command">Copy password</span> command</h3>
+
+      <p class="wrap">
+        The <span class="command">Copy password</span> command (Ctrl+C) copies the last password
+        to be generated by the <a class="command" href="#section5-5">Generate password</a>
+        command to the system clipboard.  The last password is the one that is displayed in the
+        <a href="#section4-3">password pane</a> of the main window.
+      </p>
+
+      <h3 id="section5-5">5.5&nbsp; The <span class="command">Generate password</span> command</h3>
+
+      <p class="wrap">
+        The <span class="command">Generate password</span> command (Ctrl+G) generates a password
+        with the parameters that are obtained from the components in the <a
+        href="#section4-2">control pane</a> of the main window.  An error message is displayed
+        if the parameters do not allow a password of the desired length to be generated.  If a
+        password is generated successfully, it is displayed in the <a
+        href="#section4-3">password pane</a>.
+      </p>
+
+      <h3 id="section5-6">5.6&nbsp; The <span class="command">Exit</span> command</h3>
+
+      <p class="wrap">
+        The <span class="command">Exit</span> command terminates the application.
+      </p>
+
+    </div>
+
+    <!--=====================================================================================-->
+
+    <!-- Preferences -->
+
+    <div class="section">
+      <h2 id="section6">6&nbsp; Preferences</h2>
+      <p class="tocLink">
+        [ <a href="#toc">Table of contents</a> ]
+      </p>
+
+      <p class="wrap">
+        The user preferences of PasswordGenerator may be edited in the <span
+        class="component">Preferences</span> dialog that is displayed in response to the <a
+        class="command" href="#section5-3">Preferences</a> command.
+      </p>
+
+      <h3 id="section6-1">6.1&nbsp; Appearance</h3>
+
+      <h4 id="section6-1-1">6.1.1&nbsp; Colour scheme</h4>
+      <p class="wrap">
+        The <span class="component">Colour scheme</span> spinner selects the colour scheme
+        &mdash; <i>light</i> or <i>dark</i> &mdash; that applies to the user interface of the
+        application.  When you change the value in the spinner, the new colour scheme takes
+        effect immediately.  The old scheme is restored if you cancel the <span
+        class="component">Preferences</span> dialog.
+      </p>
+
+      <h3 id="section6-2">6.2&nbsp; Characters</h3>
+
+      <h4 id="section6-2-1">6.2.1&nbsp; Include only ASCII characters</h4>
+      <p class="wrap">
+        The <span class="component">Include only ASCII characters</span> check box applies to
+        the characters in the <a class="component" href="#section4-2-2">Include</a> field of the
+        main window, which are referred to as <i>included characters</i>.  If the check box is
+        selected, an included character must be a printable ASCII character (a Unicode code
+        point in the range from U+0020 to U+007E inclusive); otherwise, an included character
+        may be any character that you can type in the <span class="component">Include</span>
+        field.
+      </p>
+
+      <h3 id="section6-3">6.3&nbsp; Saved settings</h3>
+
+      <p class="wrap">
+        The check boxes in the <span class="component">Saved settings</span> pane control
+        whether the state of components in the <a href="#section4-2">control pane</a> of the
+        main window will be saved to the configuration file when the application terminates,
+        unless the use of a configuration file has been <a href="#section3-2">disabled</a>.
+      </p>
+
+      <h4 id="section6-3-1">6.3.1&nbsp; Save character parameters</h4>
+      <p class="wrap">
+        If the <span class="component">Save character parameters</span> check box is selected,
+        the state of the character-related components of the main window will be saved to the
+        configuration file when the application terminates.  The character-related components
+        are those whose states correspond to the <a href="#section7-1">parameters of a
+        preset</a>.
+      </p>
+
+      <h4 id="section6-3-2">6.3.2&nbsp; Save password length</h4>
+      <p class="wrap">
+        If the <span class="component">Save password length</span> check box is selected, the
+        values of the <a class="component" href="#section4-2-5">Length</a> spinners and the
+        <i>selected</i> state of the <i>link</i> button will be saved to the configuration file
+        when the application terminates.
+      </p>
+
+    </div>
+
+    <!--=====================================================================================-->
+
+    <!-- Presets -->
+
+    <div class="section">
+      <h2 id="section7">7&nbsp; Presets</h2>
+      <p class="tocLink">
+        [ <a href="#toc">Table of contents</a> ]
+      </p>
+
+      <h3 id="section7-1">7.1&nbsp; The parameters of a preset</h3>
+
+      <p class="noBottomMargin wrap">
+        A preset is a named set of parameters that correspond to the following states of
+        components in the <a href="#section4-2">control pane</a> of the main window:
+      </p>
+      <ul class="continuationList">
+        <li class="wrap">
+          the <i>selected</i> state of each of the <i>category</i> check boxes and <i>category
+          required</i> check boxes;
+        </li>
+        <li class="wrap">
+          the content of the <a class="component" href="#section4-2-2">Include</a> field and the
+          <i>selected</i> state of its <span class="component">Required</span> check box;
+        </li>
+        <li class="wrap">
+          the content of the <a class="component" href="#section4-2-3">Exclude</a> field;
+        </li>
+        <li class="wrap">
+          the <i>selected</i> state of the <a class="component" href="#section4-2-4">Unique
+          characters</a> check box.
+        </li>
+      </ul>        
+
+      <h3 id="section7-2">7.2&nbsp; Operations related to presets</h3>
+
+      <p class="wrap">
+        A preset is created with the <a class="command" href="#section5-1">Add or update
+        preset</a> command.  The new preset is added to a list that may be edited with the <a
+        class="command" href="#section5-2">Edit presets</a> command.  When PasswordGenerator
+        terminates, the list of presets is saved to the configuration file unless the use of a
+        configuration file has been <a href="#section3-2">disabled</a>.
+      </p>
+      <p class="wrap">
+        The names of the current presets are displayed in a menu that is triggered by the <span
+        class="component">Presets</span> button in the <a href="#section4-1">toolbar</a> of the
+        main window.  If a preset is selected from the menu, the states of the <a
+        href="#section7-1">relevant components</a> in the control pane of the main window are
+        updated from the parameters of the preset.
+      </p>
+      <p class="wrap">
+        You can update an existing preset with the current state of the components in the
+        control pane by issuing the <a class="command" href="#section5-1">Add or update
+        preset</a> command and choosing the name of the preset from the drop-down list.
+      </p>
+      <p class="noBottomMargin wrap">
+        You can perform the following operations from the dialog that is displayed in response
+        to the <a class="command" href="#section5-2">Edit presets</a> command:
+      </p>
+      <ul class="continuationList">
+        <li class="wrap">
+          rename a preset,
+        </li>
+        <li class="wrap">
+          remove a preset from the list,
+        </li>
+        <li class="wrap">
+          change the position of a preset in the list.
+        </li>
+      </ul>        
+
+    </div>
+
+    <!--=====================================================================================-->
+
+    <!-- Special constructs in pathnames -->
+
+    <div class="section">
+      <h2 id="sectionA">Appendix A:&nbsp; Special constructs in pathnames</h2>
+      <p class="tocLink">
+        [ <a href="#toc">Table of contents</a> ]
+      </p>
+
+      <p class="wrap">
+        Where indicated elsewhere in this document, some pathname parameters and system
+        properties in PasswordGenerator can contain special constructs for system properties,
+        environment variables and the user&apos;s home directory.  The special constructs are
+        expanded when the pathname is used.
+      </p>
+
+      <h3 id="sectionA-1">A.1&nbsp; System properties and environment variables</h3>
+
+      <p class="wrap">
+        Java system properties (eg, the user&apos;s home directory, <code>user.home</code>) and
+        environment variables (eg, <code>PATH</code>) are referenced by enclosing them between
+        <code>${</code> and <code>}</code>; that is, they must have the form
+        <code>${&lt;<i>name</i>&gt;}</code>.  A Java system property takes precedence over an
+        environment variable with the same name.
+      </p>
+      <p class="wrap">
+        &bull; Example: <code>${user.home}/projects</code>
+      </p>
+      <p class="wrap">
+        &bull; Example: <code>${HOME}/projects</code>
+      </p>
+      <p class="wrap">
+        A Java system property can be specified by prefixing <code>sys.</code> to it:
+      </p>
+      <p class="wrap">
+        &bull; Example: <code>${sys.user.home}/projects</code>
+      </p>
+      <p class="wrap">
+        An environment variable can be specified by prefixing <code>env.</code> to it:
+      </p>
+      <p class="wrap">
+        &bull; Example: <code>${env.HOME}/projects</code>
+      </p>
+
+      <h3 id="sectionA-2">A.2&nbsp; User&apos;s home directory</h3>
+      <p class="wrap">
+        A leading <code>~</code> in a pathname is expanded into the user&apos;s home directory
+        using the <code>user.home</code> system property, which is usually equivalent to the
+        environment variable <code>HOME</code> on Unix-like systems or <code>USERPROFILE</code>
+        on Windows systems.
+      </p>
+      <p class="wrap">
+        &bull; Example: <code>~/projects</code>
+      </p>
+
+    </div>
+
+    <!--=====================================================================================-->
+
+    <!-- System properties -->
+
+    <div class="section">
+      <h2 id="sectionB">Appendix B:&nbsp; System properties</h2>
+      <p class="tocLink">
+        [ <a href="#toc">Table of contents</a> ]
+      </p>
+
+      <p class="wrap">
+        PasswordGenerator recognises the system properties listed below.  A system property can
+        be set on the command line of the Java launcher (<code>java</code> or
+        <code>javaw</code>) with the <code>-D</code> option (eg,
+        <code>-Dblankaspect.app.noConfigFile=true</code>).
+      </p>
+
+      <dl class="sysProperties">
+
+        <dt>blankaspect.app.auxDir</dt>
+        <dd class="wrap">
+          This property determines the location of the application&apos;s <a
+          href="#section3-1">configuration file</a>.
+        </dd>
+
+        <dt>blankaspect.app.noConfigFile</dt>
+        <dd class="wrap">
+          This property controls the use of a <a href="#section3-2">configuration file</a> by
+          the application.
+        </dd>
+
+        <dt class="multi">
+          mainWindowDelay.size<br/>
+          mainWindowDelay.location<br/>
+          mainWindowDelay.opacity
+        </dt>
+        <dd class="wrap">
+          The values of these properties are the durations (in milliseconds) of the three <a
+          href="#sectionB-1">delays</a> that are applied after the main window of the
+          application is displayed.  The delays are applied in the order <i>size</i> &ndash;
+          <i>location</i> &ndash; <i>opacity</i>.
+        </dd>
+
+        <dt>useStyleSheetFile</dt>
+        <dd class="wrap">
+          This property may be used by developers for debugging a CSS style sheet.  If its value
+          is <code>true</code>, the style sheets that are generated by <code>StyleManager</code>
+          will be written to a temporary file; otherwise, the style sheets will be <a
+          class="external" href="https://en.wikipedia.org/wiki/Data_URI_scheme">data-scheme</a>
+          URIs.
+        </dd>
+
+        <dt class="multi">
+          blankaspect.ui.jfx.simpleDialog.windowDelay.size<br/>
+          blankaspect.ui.jfx.simpleDialog.windowDelay.location<br/>
+          blankaspect.ui.jfx.simpleDialog.windowDelay.opacity
+        </dt>
+        <dd class="wrap">
+          The values of these properties are the durations (in milliseconds) of the three <a
+          href="#sectionB-1">delays</a> that are applied after an instance of
+          <code>SimpleDialog</code> is displayed.  The delays are applied in the order
+          <i>size</i> &ndash; <i>location</i> &ndash; <i>opacity</i>.
+        </dd>
+
+      </dl>
+
+      <h3 id="sectionB-1">B.1&nbsp; Window delays</h3>
+
+      <p class="wrap">
+        Most of the system properties listed above are delays that have been introduced as a
+        workaround for a persistent problem in JavaFX that has been observed on Linux/GNOME when
+        the size or location of a window is changed after it first appears.  The default values
+        for the delays have been chosen in a trade-off between two kinds of poor user
+        experience: the shrinking of a window, which is the observable symptom of the problem,
+        versus the unpleasant visual effect of moving the window after it has appeared on the
+        screen.  The default values were determined by experiment on a single machine running
+        Ubuntu.  They may not be appropriate for other machines and systems, so the delays have
+        been exposed as system properties so that users can modify them.  The property values
+        are expected to be integers and the units are milliseconds.
+      </p>
+      <p class="wrap">
+        Although the problem is not present in JavaFX on Windows, the same set of delays are
+        applied to simplify the code.  This was deemed acceptable because the unpleasant effect
+        of moving a visible window is avoided by setting the opacity of the window to 0 before
+        it is shown, then setting the opacity to 1 after the size and location of the window
+        have been changed.  Sadly, the same trick doesn&apos;t work on Linux/GNOME because it
+        seems that GNOME doesn&apos;t allow the opacity of a window to be changed.
+      </p>
+
+    </div>
+
+    <!--=====================================================================================-->
+
+    <!-- Footer -->
+
+    <div id="lastModified">
+      <div>
+        <div>
+          Last modified: 2026-05-21
+        </div>
+        <div class="image">
+          <a class="hideHover" href="https://validator.w3.org/check?uri=referer">
+            <img alt="XHTML 1.1" src="images/valid-xhtml11-blue.png"/>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
