@@ -270,7 +270,7 @@ class Generator
 		private void removeChar(
 			int	index)
 		{
-			// Validate index
+			// Validate argument
 			if ((index < 0) || (index >= length))
 				throw new IndexOutOfBoundsException(index);
 
