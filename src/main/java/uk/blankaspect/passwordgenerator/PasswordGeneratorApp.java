@@ -420,19 +420,19 @@ public class PasswordGeneratorApp
 		ColourProperty.of
 		(
 			FxProperty.FILL,
-			ColourKey.CLEAR_BUTTON_DISC,
+			ColourKey.CLEAR_BUTTON_BACKGROUND,
 			CssSelector.builder()
 					.id(StyleConstants.NodeId.APP_MAIN_ROOT)
-					.desc(Icons.StyleClass.CLEAR01_DISC)
+					.desc(Icons.StyleClass.CLEAR02_BACKGROUND)
 					.build()
 		),
 		ColourProperty.of
 		(
 			FxProperty.STROKE,
-			ColourKey.CLEAR_BUTTON_CROSS,
+			ColourKey.CLEAR_BUTTON_FOREGROUND,
 			CssSelector.builder()
 					.id(StyleConstants.NodeId.APP_MAIN_ROOT)
-					.desc(Icons.StyleClass.CLEAR01_CROSS)
+					.desc(Icons.StyleClass.CLEAR02_FOREGROUND)
 					.build()
 		)
 	);
@@ -488,8 +488,8 @@ public class PasswordGeneratorApp
 
 		String	CATEGORY_CHECK_BOX_BACKGROUND			= PREFIX + "categoryCheckBox.background";
 		String	CATEGORY_CHECK_BOX_BACKGROUND_SELECTED	= PREFIX + "categoryCheckBox.background.selected";
-		String	CLEAR_BUTTON_CROSS						= PREFIX + "clearButton.cross";
-		String	CLEAR_BUTTON_DISC						= PREFIX + "clearButton.disc";
+		String	CLEAR_BUTTON_BACKGROUND					= PREFIX + "clearButton.background";
+		String	CLEAR_BUTTON_FOREGROUND					= PREFIX + "clearButton.foreground";
 		String	PASSWORD_LABEL_BACKGROUND				= PREFIX + "passwordLabel.background";
 		String	PASSWORD_LABEL_BORDER					= PREFIX + "passwordLabel.border";
 		String	PASSWORD_LABEL_TEXT						= PREFIX + "passwordLabel.text";
@@ -608,8 +608,8 @@ public class PasswordGeneratorApp
 		TextField	field,
 		String		tooltipText)
 	{
-		GraphicButton button = new GraphicButton(Icons.clear01(getColour(ColourKey.CLEAR_BUTTON_DISC),
-															   getColour(ColourKey.CLEAR_BUTTON_CROSS)),
+		GraphicButton button = new GraphicButton(Icons.clear02(getColour(ColourKey.CLEAR_BUTTON_BACKGROUND),
+															   getColour(ColourKey.CLEAR_BUTTON_FOREGROUND)),
 												 tooltipText);
 		button.setOnAction(event ->
 		{
